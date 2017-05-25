@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
+
 // TodoApp 元件中包含了顯示 Todo 的 TodoList 元件，Todo 的內容透過 props 傳入 TodoList 中。由於 TodoList 僅單純 Render UI 不涉及內部 state 操作是 stateless component，所以使用 Functional Component 寫法。需要特別注意的是這邊我們用 map function 來迭代 Todos，需要留意的是每個迭代的元素必須要有 unique key 不然會發生錯誤（可以用自定義 id，或是使用 map function 的第二個參數 index）
 const TodoList = (props) => (
-	<ul>
+	<ul className="todo-list">
 		{
 			props.items.map((item) => (
-				<li key={item.id}>{item.text}</li>
+				<li key={item.id}>
+                    <div className="view">
+                        <input className="toggle" type="checkbox" />
+                        <label>{item.text}</label>
+                        <button className="destroy"></button>
+                    </div>
+                </li>
 			))
 		}
 	</ul>
@@ -33,12 +39,11 @@ class TodoApp extends React.Component {
 	}
 	render() {
 	    return (
-	      <div>
-	        <h3>TODO</h3>
+	      <div className="todoapp">
+	        <h1>TODO</h1>
 	        <TodoList items={this.state.items} />
 	        <form onSubmit={this.handleSubmit}>
-	          <input onChange={this.onChange} value={this.state.text} />
-	          <button>{'Add #' + (this.state.items.length + 1)}</button>
+	          <input className="new-todo" onChange={this.onChange} value={this.state.text} />
 	        </form>
 	      </div>
 	    );
